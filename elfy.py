@@ -119,12 +119,7 @@ def dayFour():
             for i in range(2):
                 pair[i] = pair[i].split("-")
                 pair[i] = [int(pair[i][0]), int(pair[i][1])]
-            gora1 = max(pair[0])
-            dol1 = min(pair[0])
-            gora2 = max(pair[1])
-            dol2 = min(pair[1])
-
-            if dol2 <= gora1 <= gora2 or dol2 <= dol1 <= gora2 or dol1 <= gora2 <= gora1 or dol1 <= dol2 <= gora1:
+            if min(pair[1]) <= max(pair[0]) <= max(pair[1]) or min(pair[1]) <= min(pair[0]) <= max(pair[1]) or min(pair[0]) <= max(pair[1]) <= max(pair[0]) or min(pair[0]) <= min(pair[1]) <= max(pair[0]):
                 s += 1
                 print(pair)
         print(s)
