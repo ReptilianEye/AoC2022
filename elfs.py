@@ -1,3 +1,6 @@
+from math import ceil
+
+
 def dayOne():
     top3 = [0, 0, 0]
     with open("dane/test1.in") as file:
@@ -131,4 +134,81 @@ def dayFour():
         sec_star(file)
 
 
-dayFour()
+# dayFour()
+
+
+def dayFive():
+    class crateMover():
+        def __init__(self, n=3):
+            self.stack = [[] for _ in range(n)]
+            self.size = n
+
+        def add(self, el, _to):
+            if 0 <= _to and _to < self.size:
+                self.stack[_to].append(el)
+
+        def move(self, _from, _to):
+            self.stack[_to].append(self.stack[_from].pop())
+
+        def move_many_block(self, n, _from, _to):
+
+            self.stack[_to] += self.stack[_from][-n:]
+            self.stack[_from] = self.stack[_from][:len(self.stack[_from])-n]
+
+        def move_many_stack(self, n,  _from, _to):
+            if n <= len(self.stack[_from]):
+                for _ in range(n):
+                    self.move(_from, _to)
+
+        def _get_top(self, i):
+            if len(self.stack[i]) == 0:
+                return ""
+            else:
+                return self.stack[i][-1]
+
+        def get_tops(self):
+            return "".join([self._get_top(i) for i in range(self.size)])
+
+    def first_and_sec_star(file):
+        file = file.readlines()
+        l = []
+        d_w = 0
+        while True:
+            line = file[d_w]
+            d_w += 1
+            if "1" in line.strip():
+                break
+
+            j = 0
+            temp = []
+            while j < len(line):
+                temp.append(line[j+1:j+2])
+                j += 4
+            l.append(temp)
+        d_w += 1
+        c = crateMover(len(l[-1]))
+
+        for i in range(len(l)-1, -1, -1):
+            for j in range(c.size):
+                if l[i][j].strip() != "":
+                    c.add(l[i][j], j)
+        while d_w < len(file):
+            line = file[d_w]
+            instr = line.strip().split()
+            # c.move_many_stack(int(instr[1]), int(instr[3])-1, int(instr[5])-1)
+            c.move_many_block(int(instr[1]), int(instr[3])-1, int(instr[5])-1)
+
+            # print(s.get_tops())
+            d_w += 1
+        print(c.get_tops())
+
+    def sec_star(file):
+        pass
+    # file = "dane/test5.in"
+    file = "dane/dane5.in"
+    with open(file) as file:
+        first_and_sec_star(file)
+
+        # sec_star(file)
+dayFive()
+
