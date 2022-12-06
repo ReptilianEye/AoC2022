@@ -210,5 +210,29 @@ def dayFive():
         first_and_sec_star(file)
 
         # sec_star(file)
-dayFive()
+# dayFive()
 
+
+def daySix():
+
+    def check_dup(s):
+        return len(s) == len(set(list(s)))
+
+    def first__and_sec_star(line, l=4):
+        i = 0
+        while i+l < len(line):
+            if check_dup(line[i:i+l]):
+                print(i+l)
+                return
+            i += 1
+
+    def sec_star(file):
+        pass
+    # file = "dane/test6.in"
+    file = "dane/dane6.in"
+    with open(file) as file:
+        for line in file:
+            first__and_sec_star(line.strip(), l=14)
+
+        # sec_star(file)
+daySix()
