@@ -1,3 +1,4 @@
+import re
 from math import ceil
 
 
@@ -235,4 +236,82 @@ def daySix():
             first__and_sec_star(line.strip(), l=14)
 
         # sec_star(file)
-daySix()
+# daySix()
+
+
+def daySeven():
+    import re
+    into_dir = "\$ cd [a-z]"
+    up_dir = "\$ cd \.\."
+    ls = "\$ ls"
+    command = "\$ [a-z]+"
+    dir = "dir*"
+    num = "[0-9]+"
+
+    def sum_dir(file):
+        nonlocal i
+        i += 1
+        s = 0
+        n = len(file)
+        while i < n and not re.search(command, file[i]):
+            if not re.search(dir, file[i]):
+                s += int(re.findall(num, file[i])[0])
+            i += 1
+        i -= 1
+        return s
+
+    def calc_size_fs(max_s, file):
+        nonlocal i, sum
+        n = len(file)
+        s = 0
+        while i < n and not re.search(up_dir, file[i]):
+            if re.search(into_dir, file[i]):
+                i += 1
+                s += calc_size_fs(max_s, file)
+                if i >= n:
+                    return s
+            if re.search(ls, file[i]):
+                s += sum_dir(file)
+
+            i += 1
+        if s <= max_s:
+            sum += s
+        return s
+
+    def calc_size_ss(min_s, file):
+        nonlocal i
+        n = len(file)
+        s = 0
+        while i < n and not re.search(up_dir, file[i]):
+            if re.search(into_dir, file[i]):
+                i += 1
+                s += calc_size_ss(min_s, file)
+                if i >= n:
+                    return s
+            if re.search(ls, file[i]):
+                s += sum_dir(file)
+
+            i += 1
+        if s >= min_s:
+            to_delete.append(s)
+        return s
+    # file = "dane/test7.in"
+    file = "dane/dane7.in"
+    with open(file) as file:
+        filelines = file.readlines()
+        file = [filelines[i].strip() for i in range(len(filelines))]
+    i = 0
+    sum = 0
+    sys_size = calc_size_fs(100000, file)
+    # print(sum)
+
+    free_space = 70000000 - sys_size
+    if free_space < 30000000:
+        to_free = 30000000-free_space
+    to_delete = [sys_size]
+    i = 0
+    calc_size_ss(to_free, file)
+    print(min(to_delete))
+
+
+daySeven()
