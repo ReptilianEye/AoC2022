@@ -54,8 +54,8 @@ def solve_ss(file):
     print_screen(screen)
 
 
-# file = "test.in"
-file = "dane.in"
+file = "test.in"
+# file = "dane.in"
 
 with open(file) as file:
     file = file.readlines()

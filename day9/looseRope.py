@@ -6,12 +6,12 @@ def calcMove(next, prev):
     return tuple(vec)
 
 
-def move_rope(rest, head):
-    rest[0] = head
-    for i in range(1, len(rest)):
-        if max(abs(rest[i-1][0] - rest[i][0]), abs(rest[i-1][1] - rest[i][1])) >= 2:
-            vec = calcMove(rest[i-1], rest[i])
-            rest[i] = (rest[i][0] + vec[0], rest[i][1] + vec[1])
+def move_rope(rope, new_head):
+    rope[0] = new_head
+    for i in range(1, len(rope)):
+        if max(abs(rope[i-1][0] - rope[i][0]), abs(rope[i-1][1] - rope[i][1])) >= 2:
+            vec = calcMove(rope[i-1], rope[i])
+            rope[i] = (rope[i][0] + vec[0], rope[i][1] + vec[1])
         else:
             break
 
